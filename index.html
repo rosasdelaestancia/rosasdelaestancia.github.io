@@ -1,1 +1,575 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rosas de La Estancia · Bogotá</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{
+  --cafe:#7a4e2d;--cafe-oscuro:#4a2c16;--cafe-claro:#c4956a;
+  --beige:#f0e8dc;--beige-oscuro:#e0d0bc;--crema:#faf6f0;--marfil:#f5ede0;
+  --texto:#2e1f14;--texto-medio:#6b4c33;--texto-suave:#9a7b66;
+  --verde:#3d5a3e;--blanco:#ffffff;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--crema);color:var(--texto);overflow-x:hidden}
 
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:rgba(250,246,240,0.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(122,78,45,0.15);
+  height:68px;display:flex;align-items:center;
+  padding:0 2rem;justify-content:space-between;
+}
+.nav-logo img{height:44px;width:44px;border-radius:50%;object-fit:cover}
+.nav-links{display:flex;gap:2.2rem;list-style:none}
+.nav-links a{
+  font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--texto-medio);text-decoration:none;font-weight:500;transition:color .2s
+}
+.nav-links a:hover{color:var(--cafe)}
+.nav-cta{
+  background:var(--cafe);color:white;padding:.55rem 1.4rem;border-radius:50px;
+  font-size:.78rem;font-weight:500;text-decoration:none;
+  letter-spacing:.04em;transition:background .2s;white-space:nowrap
+}
+.nav-cta:hover{background:var(--cafe-oscuro)}
+.hamburger{display:none;background:none;border:none;cursor:pointer;font-size:1.4rem;color:var(--texto)}
+
+/* HERO */
+#inicio{
+  min-height:100vh;
+  background:linear-gradient(160deg,var(--crema) 0%,var(--marfil) 50%,var(--beige) 100%);
+  display:flex;align-items:center;padding:100px 2rem 60px;
+}
+.hero-inner{max-width:1200px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.hero-tag{
+  display:inline-block;background:var(--beige);color:var(--cafe);
+  font-size:.72rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+  padding:.4rem 1.1rem;border-radius:50px;margin-bottom:1.5rem;
+  border:1px solid rgba(122,78,45,0.2)
+}
+.hero-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3rem,5vw,5rem);font-weight:300;line-height:1.05;
+  color:var(--texto);margin-bottom:1.5rem
+}
+.hero-title em{color:var(--cafe-claro);font-style:italic}
+.hero-sub{font-size:.98rem;color:var(--texto-suave);line-height:1.75;max-width:430px;margin-bottom:2.5rem}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-primary{
+  background:var(--cafe);color:white;padding:.9rem 2rem;border-radius:50px;
+  font-size:.85rem;font-weight:500;text-decoration:none;letter-spacing:.04em;
+  transition:all .2s;border:none;cursor:pointer;font-family:'DM Sans',sans-serif
+}
+.btn-primary:hover{background:var(--cafe-oscuro);transform:translateY(-2px)}
+.btn-outline{
+  background:transparent;color:var(--texto);padding:.9rem 2rem;border-radius:50px;
+  border:1.5px solid rgba(74,44,22,0.25);font-size:.85rem;font-weight:500;
+  text-decoration:none;letter-spacing:.04em;transition:all .2s;cursor:pointer;
+  font-family:'DM Sans',sans-serif
+}
+.btn-outline:hover{border-color:var(--cafe);color:var(--cafe)}
+.hero-visual{position:relative}
+.hero-img-main{
+  width:100%;border-radius:24px 24px 80px 24px;aspect-ratio:4/5;object-fit:cover;
+  box-shadow:0 20px 60px rgba(74,44,22,0.2)
+}
+.hero-badge-float{
+  position:absolute;bottom:-20px;left:-20px;background:white;border-radius:16px;
+  padding:1rem 1.3rem;box-shadow:0 8px 30px rgba(74,44,22,0.15);
+  border:1px solid rgba(122,78,45,0.1)
+}
+.hero-badge-float img{height:36px;width:auto}
+
+/* SECCIONES */
+section{padding:90px 2rem}
+.section-inner{max-width:1200px;margin:0 auto}
+.s-tag{display:inline-block;font-size:.7rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--cafe-claro);margin-bottom:.75rem}
+.s-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,3.2rem);font-weight:300;color:var(--texto);margin-bottom:1rem;line-height:1.12}
+.s-title em{color:var(--cafe);font-style:italic}
+.s-sub{color:var(--texto-suave);font-size:.95rem;line-height:1.75;max-width:520px}
+
+/* SERVICIOS */
+#servicios{background:white}
+.srv-grid{margin-top:3.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.5rem}
+.srv-card{
+  background:var(--crema);border-radius:20px;padding:2.2rem;
+  border:1px solid rgba(122,78,45,0.1);transition:all .25s;position:relative;overflow:hidden
+}
+.srv-card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--cafe),var(--cafe-claro));
+  transform:scaleX(0);transition:transform .25s;transform-origin:left
+}
+.srv-card:hover{transform:translateY(-5px);box-shadow:0 12px 40px rgba(74,44,22,0.12)}
+.srv-card:hover::after{transform:scaleX(1)}
+.srv-icon{font-size:2rem;margin-bottom:1.1rem}
+.srv-name{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;margin-bottom:.6rem;color:var(--texto)}
+.srv-desc{font-size:.84rem;color:var(--texto-suave);line-height:1.65}
+
+/* GALERÍA */
+#galeria{background:var(--crema)}
+.gal-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.5rem;gap:2rem;flex-wrap:wrap}
+.gal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem}
+.gal-item{border-radius:14px;overflow:hidden;position:relative;cursor:pointer;background:var(--marfil);aspect-ratio:1/1}
+.gal-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+.gal-item:hover img{transform:scale(1.06)}
+.gi-tall{grid-row:span 2;aspect-ratio:auto}
+.gi-wide{grid-column:span 2;aspect-ratio:2/1}
+.gal-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(74,44,22,0.5) 0%,transparent 50%);opacity:0;transition:opacity .3s}
+.gal-item:hover .gal-overlay{opacity:1}
+.gal-nota{
+  margin-top:2rem;background:var(--beige);border-radius:14px;padding:1.4rem 1.8rem;
+  border:1px solid rgba(122,78,45,0.15);display:flex;align-items:center;gap:1rem
+}
+.gal-nota p{font-size:.87rem;color:var(--cafe-oscuro);line-height:1.6}
+.gal-nota strong{color:var(--cafe)}
+
+/* NOSOTROS */
+#nosotros{background:var(--marfil)}
+.nos-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.nos-img-wrap{position:relative}
+.nos-img{width:100%;border-radius:24px 80px 24px 24px;aspect-ratio:4/5;object-fit:cover;box-shadow:0 16px 50px rgba(74,44,22,0.18)}
+.nos-logo-badge{position:absolute;top:-20px;right:-20px;width:90px;height:90px;border-radius:50%;object-fit:cover;box-shadow:0 8px 24px rgba(74,44,22,0.25);border:4px solid white}
+.nos-content .s-sub{max-width:100%;margin-bottom:1.5rem}
+.nos-vals{display:flex;flex-direction:column;gap:1rem}
+.nos-val{display:flex;align-items:flex-start;gap:.9rem;padding:1rem 1.2rem;background:white;border-radius:12px;border:1px solid rgba(122,78,45,0.1)}
+.nos-val-icon{font-size:1.2rem;flex-shrink:0;margin-top:1px}
+.nos-val-text p:first-child{font-size:.8rem;font-weight:500;color:var(--cafe);margin-bottom:.15rem}
+.nos-val-text p:last-child{font-size:.8rem;color:var(--texto-suave);line-height:1.5}
+
+/* PROCESO */
+#proceso{background:white}
+.proc-grid{margin-top:3rem;display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+.proc-step{text-align:center;padding:2rem 1.2rem;background:var(--crema);border-radius:18px;border:1px solid rgba(122,78,45,0.08)}
+.proc-num{width:50px;height:50px;border-radius:50%;background:var(--beige);color:var(--cafe);font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;border:1.5px solid rgba(122,78,45,0.25)}
+.proc-titulo{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:400;margin-bottom:.4rem;color:var(--texto)}
+.proc-desc{font-size:.8rem;color:var(--texto-suave);line-height:1.55}
+
+/* PEDIDO */
+#pedido{background:var(--beige)}
+.pedido-wrap{max-width:720px;margin:0 auto}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-top:2.5rem}
+.form-full{grid-column:1/-1}
+.form-group{display:flex;flex-direction:column;gap:.4rem}
+.form-label{font-size:.73rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--texto-medio)}
+.form-label .opt{font-size:.65rem;font-weight:400;color:var(--cafe-claro);text-transform:none;letter-spacing:0;margin-left:4px}
+.form-input,.form-textarea,.form-select{
+  background:white;border:1.5px solid rgba(122,78,45,0.15);border-radius:10px;
+  padding:.72rem 1rem;font-family:'DM Sans',sans-serif;font-size:.9rem;
+  color:var(--texto);outline:none;transition:border-color .2s;width:100%
+}
+.form-input:focus,.form-textarea:focus,.form-select:focus{border-color:var(--cafe);box-shadow:0 0 0 3px rgba(122,78,45,0.1)}
+.form-textarea{min-height:80px;resize:vertical}
+.tipo-group{display:flex;gap:.55rem;flex-wrap:wrap}
+.tipo-chip{
+  flex:1;min-width:80px;padding:.55rem .8rem;border-radius:8px;
+  border:1.5px solid rgba(122,78,45,0.15);background:white;cursor:pointer;
+  font-size:.8rem;text-align:center;color:var(--texto);transition:all .15s;user-select:none
+}
+.tipo-chip.active{border-color:var(--cafe);background:var(--beige);color:var(--cafe);font-weight:500}
+.sep{grid-column:1/-1;height:1px;background:rgba(122,78,45,0.12);margin:.3rem 0}
+.sec-title{grid-column:1/-1;font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;color:var(--texto-suave)}
+.btn-wa{
+  display:flex;align-items:center;justify-content:center;gap:.6rem;width:100%;margin-top:1.5rem;
+  background:#25D366;color:white;padding:1.05rem;border-radius:50px;border:none;cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:500;letter-spacing:.03em;transition:all .2s
+}
+.btn-wa:hover{background:#1eaa52;transform:translateY(-2px);box-shadow:0 10px 24px rgba(37,211,102,0.28)}
+.btn-wa svg{width:20px;height:20px;fill:white;flex-shrink:0}
+.form-nota{margin-top:1rem;padding:1rem 1.2rem;background:rgba(122,78,45,.06);border-radius:10px;font-size:.77rem;color:var(--texto-suave);line-height:1.5;text-align:center}
+
+/* CONTACTO */
+#contacto{background:white}
+.ct-grid{margin-top:3rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.ct-item{display:flex;gap:1rem;align-items:flex-start;margin-bottom:1.5rem}
+.ct-icon{width:42px;height:42px;border-radius:10px;background:var(--beige);color:var(--cafe);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.ct-info p:first-child{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--texto-suave);margin-bottom:.2rem;font-weight:500}
+.ct-info p:last-child{font-size:.88rem;color:var(--texto)}
+.wa-btn-big{display:flex;align-items:center;justify-content:center;gap:.8rem;background:#25D366;color:white;padding:1rem 1.5rem;border-radius:14px;text-decoration:none;font-weight:500;font-size:.9rem;transition:all .2s;margin-top:1rem}
+.wa-btn-big:hover{background:#1eaa52}
+.cat-btn-big{display:flex;align-items:center;justify-content:center;gap:.8rem;background:var(--cafe);color:white;padding:1rem 1.5rem;border-radius:14px;text-decoration:none;font-weight:500;font-size:.9rem;transition:all .2s;margin-top:.7rem}
+.cat-btn-big:hover{background:var(--cafe-oscuro)}
+
+/* FOOTER */
+footer{background:var(--cafe-oscuro);color:rgba(255,255,255,.7);padding:3rem 2rem;text-align:center}
+.ft-logo{display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:1rem}
+.ft-logo img{height:48px;width:48px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.2)}
+.ft-name{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-style:italic;color:rgba(255,255,255,.9)}
+footer p{font-size:.8rem;line-height:1.75}
+footer a{color:var(--cafe-claro);text-decoration:none}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;right:2rem;z-index:9999;background:var(--verde);color:white;padding:.85rem 1.6rem;border-radius:10px;font-size:.84rem;font-weight:500;box-shadow:0 8px 28px rgba(0,0,0,.18);transform:translateY(120px);opacity:0;transition:all .3s;max-width:300px}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* LIGHTBOX */
+.lb{display:none;position:fixed;inset:0;z-index:1000;background:rgba(30,15,5,.92);align-items:center;justify-content:center;padding:2rem}
+.lb.open{display:flex}
+.lb img{max-width:90vw;max-height:90vh;border-radius:12px;object-fit:contain}
+.lb-close{position:absolute;top:1.5rem;right:1.5rem;background:rgba(255,255,255,.15);border:none;color:white;font-size:1.5rem;width:44px;height:44px;border-radius:50%;cursor:pointer;transition:background .2s}
+.lb-close:hover{background:rgba(255,255,255,.3)}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .hero-inner,.nos-inner{grid-template-columns:1fr;gap:2.5rem}
+  .hero-visual,.nos-img-wrap{display:none}
+  .proc-grid{grid-template-columns:1fr 1fr}
+  .gal-grid{grid-template-columns:repeat(2,1fr)}
+  .gi-tall{grid-row:span 1}
+  .gi-wide{grid-column:span 2}
+  .ct-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .hamburger{display:block}
+}
+@media(max-width:600px){
+  section{padding:60px 1.2rem}
+  nav{padding:0 1.2rem}
+  .form-grid{grid-template-columns:1fr}
+  .form-full{grid-column:1}
+  .gal-grid{grid-template-columns:repeat(2,1fr);gap:.5rem}
+  .proc-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#inicio" class="nav-logo"><img src="img/logo-circle.png" alt="Rosas de La Estancia"></a>
+  <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#galeria">Galería</a></li>
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#proceso">¿Cómo pedir?</a></li>
+    <li><a href="#pedido">Pedir ahora</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <a href="https://wa.me/c/3204777246" target="_blank" class="nav-cta">Ver catálogo</a>
+  <button class="hamburger" onclick="toggleNav()">☰</button>
+</nav>
+
+<section id="inicio">
+  <div class="hero-inner">
+    <div>
+      <span class="hero-tag">Bogotá · Flores frescas de cosecha</span>
+      <h1 class="hero-title">Flores que<br>nacen de <em>cada<br>temporada</em></h1>
+      <p class="hero-sub">Ramos, floreros, cajas de regalo y decoración de eventos. Cada arreglo es único — creado con las flores más frescas disponibles en cosecha, como el momento que quieres celebrar.</p>
+      <div class="hero-btns">
+        <a href="#pedido" class="btn-primary">Hacer mi pedido</a>
+        <a href="#galeria" class="btn-outline">Ver nuestros arreglos</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <img class="hero-img-main" src="img/hero.jpg" alt="Arreglo Rosas de La Estancia" loading="lazy">
+      <div class="hero-badge-float">
+        <img src="img/logo-text.png" alt="Rosas de La Estancia">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="servicios">
+  <div class="section-inner">
+    <span class="s-tag">Lo que ofrecemos</span>
+    <h2 class="s-title">Flores para cada <em>ocasión</em></h2>
+    <p class="s-sub">Desde un detalle íntimo hasta la florería completa de tu boda. Cada creación es distinta porque las flores de cosecha nos inspiran a hacer algo nuevo cada vez.</p>
+    <div class="srv-grid">
+      <div class="srv-card"><div class="srv-icon">💐</div><div class="srv-name">Ramos de rosas</div><p class="srv-desc">Elaborados con rosas frescas de temporada en las más bellas combinaciones. Perfectos para cumpleaños, aniversarios o simplemente sorprender.</p></div>
+      <div class="srv-card"><div class="srv-icon">🏺</div><div class="srv-name">Floreros y centros de mesa</div><p class="srv-desc">Arreglos en florero para hogares, oficinas y eventos. Cada uno diseñado con las flores disponibles ese día, haciendo de cada pieza una obra irrepetible.</p></div>
+      <div class="srv-card"><div class="srv-icon">🎁</div><div class="srv-name">Cajas de regalo</div><p class="srv-desc">Presentaciones especiales en caja con rosas y flores de cosecha. El regalo más hermoso, listo para entregar con tarjeta personalizada incluida.</p></div>
+      <div class="srv-card"><div class="srv-icon">🎊</div><div class="srv-name">Decoración de eventos</div><p class="srv-desc">Transformamos tus espacios con la magia de las flores frescas. Grados, quinceañeros, cumpleaños corporativos y más.</p></div>
+      <div class="srv-card"><div class="srv-icon">💍</div><div class="srv-name">Matrimonios</div><p class="srv-desc">Bouquets nupciales, arcos florales, centros de mesa y decoración completa para tu día más especial. Trabajamos contigo para crear la atmósfera que soñaste.</p></div>
+      <div class="srv-card"><div class="srv-icon">🚚</div><div class="srv-name">Entrega a domicilio</div><p class="srv-desc">Llevamos tus flores directamente a quien quieras en Bogotá. Con tarjeta de mensaje personalizada y toda la presentación que merece el momento.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="galeria">
+  <div class="section-inner">
+    <div class="gal-header">
+      <div>
+        <span class="s-tag">Nuestros arreglos</span>
+        <h2 class="s-title" style="margin-bottom:.5rem">Cada uno, <em>irrepetible</em></h2>
+        <p class="s-sub">Ninguna creación igual a otra — cada arreglo depende de las flores en cosecha ese día.</p>
+      </div>
+      <a href="https://wa.me/c/3204777246" target="_blank" class="btn-primary" style="white-space:nowrap;flex-shrink:0">Ver catálogo completo</a>
+    </div>
+    <div class="gal-grid">
+      <div class="gal-item gi-tall" onclick="openLB('img/g1.jpg')"><img src="img/g1.jpg" alt="Arreglo" loading="lazy"><div class="gal-overlay"></div></div>
+      <div class="gal-item" onclick="openLB('img/g2.jpg')"><img src="img/g2.jpg" alt="Arreglo" loading="lazy"><div class="gal-overlay"></div></div>
+      <div class="gal-item" onclick="openLB('img/g3.jpg')"><img src="img/g3.jpg" alt="Arreglo" loading="lazy"><div class="gal-overlay"></div></div>
+      <div class="gal-item gi-tall" onclick="openLB('img/g4.jpg')"><img src="img/g4.jpg" alt="Arreglo" loading="lazy"><div class="gal-overlay"></div></div>
+      <div class="gal-item" onclick="openLB('img/g5.jpg')"><img src="img/g5.jpg" alt="Arreglo" loading="lazy"><div class="gal-overlay"></div></div>
+      <div class="gal-item" onclick="openLB('img/g6.jpg')"><img src="img/g6.jpg" alt="Arreglo" loading="lazy"><div class="gal-overlay"></div></div>
+      <div class="gal-item" onclick="openLB('img/g7.jpg')"><img src="img/g7.jpg" alt="Arreglo" loading="lazy"><div class="gal-overlay"></div></div>
+      <div class="gal-item" onclick="openLB('img/g8.jpg')"><img src="img/g8.jpg" alt="Arreglo" loading="lazy"><div class="gal-overlay"></div></div>
+      <div class="gal-item" onclick="openLB('img/g9.jpg')"><img src="img/g9.jpg" alt="Arreglo" loading="lazy"><div class="gal-overlay"></div></div>
+      <div class="gal-item gi-wide" onclick="openLB('img/g10.jpg')"><img src="img/g10.jpg" alt="Arreglo" loading="lazy" style="width:100%;height:100%;object-fit:cover"><div class="gal-overlay"></div></div>
+      <div class="gal-item" onclick="openLB('img/g11.jpg')"><img src="img/g11.jpg" alt="Arreglo" loading="lazy"><div class="gal-overlay"></div></div>
+      <div class="gal-item" onclick="openLB('img/g12.jpg')"><img src="img/g12.jpg" alt="Arreglo" loading="lazy"><div class="gal-overlay"></div></div>
+    </div>
+    <div class="gal-nota">
+      <span style="font-size:1.3rem">✨</span>
+      <p><strong>Cada arreglo es diferente al anterior.</strong> Dependemos de las flores que estén en cosecha — eso hace que cada creación sea única e irrepetible. ¡Pregúntanos qué hay disponible hoy!</p>
+    </div>
+  </div>
+</section>
+
+<section id="nosotros">
+  <div class="section-inner">
+    <div class="nos-inner">
+      <div class="nos-img-wrap">
+        <img class="nos-img" src="img/florist.jpg" alt="Nuestra florista" loading="lazy">
+        <img class="nos-logo-badge" src="img/logo-circle.png" alt="Logo">
+      </div>
+      <div class="nos-content">
+        <span class="s-tag">Quiénes somos</span>
+        <h2 class="s-title">El arte de crear con <em>lo que la naturaleza da</em></h2>
+        <p class="s-sub">Somos una empresa bogotana apasionada por las flores frescas. No trabajamos con catálogos fijos — cada arreglo nace de la inspiración del día, las flores disponibles en cosecha y la esencia del momento que quieres celebrar.</p>
+        <div class="nos-vals">
+          <div class="nos-val"><span class="nos-val-icon">🌸</span><div class="nos-val-text"><p>Flores de temporada</p><p>Siempre frescas, siempre únicas según lo que ofrece cada cosecha</p></div></div>
+          <div class="nos-val"><span class="nos-val-icon">✂️</span><div class="nos-val-text"><p>Diseño personalizado</p><p>Ningún arreglo igual al anterior — cada uno es una creación original</p></div></div>
+          <div class="nos-val"><span class="nos-val-icon">📍</span><div class="nos-val-text"><p>Entrega en Bogotá</p><p>Llevamos tus flores a domicilio con toda la presentación que merecen</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="proceso">
+  <div class="section-inner">
+    <span class="s-tag">¿Cómo pedir?</span>
+    <h2 class="s-title">Tu pedido en <em>minutos</em></h2>
+    <div class="proc-grid">
+      <div class="proc-step"><div class="proc-num">1</div><div class="proc-titulo">Llena el formulario</div><p class="proc-desc">Completa los datos de tu pedido aquí abajo. Solo los esenciales — rápido y fácil</p></div>
+      <div class="proc-step"><div class="proc-num">2</div><div class="proc-titulo">Envía por WhatsApp</div><p class="proc-desc">Con un clic, el mensaje llega completo y ordenado a nuestro chat</p></div>
+      <div class="proc-step"><div class="proc-num">3</div><div class="proc-titulo">Confirmamos contigo</div><p class="proc-desc">Te confirmamos disponibilidad, valor y detalles en pocos minutos</p></div>
+      <div class="proc-step"><div class="proc-num">4</div><div class="proc-titulo">Entrega a domicilio</div><p class="proc-desc">Reciben flores frescas y hermosas en la dirección y fecha que elegiste</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="pedido">
+  <div class="section-inner">
+    <div class="pedido-wrap">
+      <span class="s-tag">Hoja de pedido</span>
+      <h2 class="s-title">Haz tu <em>pedido</em></h2>
+      <p class="s-sub">Solo los campos con * son obligatorios. El resto puedes dejarlo en blanco si no aplica.</p>
+      <div class="form-grid">
+        <div class="form-group form-full">
+          <label class="form-label">Tipo de arreglo *</label>
+          <div class="tipo-group" id="tipo-group">
+            <div class="tipo-chip active" data-val="Ramo" onclick="selTipo(this)">💐 Ramo</div>
+            <div class="tipo-chip" data-val="Florero" onclick="selTipo(this)">🏺 Florero</div>
+            <div class="tipo-chip" data-val="Caja de regalo" onclick="selTipo(this)">🎁 Caja regalo</div>
+            <div class="tipo-chip" data-val="Decoración evento" onclick="selTipo(this)">🎊 Evento</div>
+            <div class="tipo-chip" data-val="Matrimonio" onclick="selTipo(this)">💍 Matrimonio</div>
+            <div class="tipo-chip" data-val="Otro" onclick="selTipo(this)">✏️ Otro</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Fecha de entrega *</label>
+          <input type="date" class="form-input" id="f-fecha">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Pedido / descripción *</label>
+          <input type="text" class="form-input" id="f-pedido" placeholder="ej. Ramo de rosas rosadas">
+        </div>
+        <div class="sep"></div>
+        <div class="sec-title">Datos de entrega</div>
+        <div class="form-group">
+          <label class="form-label">Para — nombre de quien recibe *</label>
+          <input type="text" class="form-input" id="f-para" placeholder="Nombre completo">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Teléfono de quien recibe <span class="opt">opcional</span></label>
+          <input type="tel" class="form-input" id="f-telr" placeholder="300 000 0000">
+        </div>
+        <div class="form-group form-full">
+          <label class="form-label">Dirección de entrega *</label>
+          <input type="text" class="form-input" id="f-dir" placeholder="Calle 00 # 00-00, Barrio, Bogotá">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tipo de inmueble <span class="opt">opcional</span></label>
+          <select class="form-select" id="f-inmueble">
+            <option value="">— Selecciona —</option>
+            <option>Casa</option><option>Apartamento</option>
+            <option>Local / Oficina</option><option>Otro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Apto / Torre / Indicaciones <span class="opt">opcional</span></label>
+          <input type="text" class="form-input" id="f-apto" placeholder="Apto 401, Torre B...">
+        </div>
+        <div class="sep"></div>
+        <div class="sec-title">Quien envía</div>
+        <div class="form-group">
+          <label class="form-label">De — quien(es) envían <span class="opt">opcional</span></label>
+          <input type="text" class="form-input" id="f-de" placeholder="Tu nombre o nombres">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tu teléfono <span class="opt">opcional</span></label>
+          <input type="tel" class="form-input" id="f-tele" placeholder="300 000 0000">
+        </div>
+        <div class="sep"></div>
+        <div class="sec-title">Tarjeta de mensaje</div>
+        <div class="form-group form-full">
+          <label class="form-label">Mensaje para la tarjeta <span class="opt">opcional</span></label>
+          <textarea class="form-textarea" id="f-msg" placeholder="Escribe el mensaje que irá en la tarjeta..."></textarea>
+        </div>
+        <div class="form-group form-full">
+          <label class="form-label">Firma del mensaje <span class="opt">opcional</span></label>
+          <input type="text" class="form-input" id="f-firma" placeholder="Con amor, Juan y María">
+        </div>
+      </div>
+      <button class="btn-wa" onclick="enviarWA()">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Enviar pedido por WhatsApp
+      </button>
+      <p class="form-nota">Al presionar el botón, se abrirá WhatsApp con tu pedido ya redactado y listo para enviar.</p>
+    </div>
+  </div>
+</section>
+
+<section id="contacto">
+  <div class="section-inner">
+    <span class="s-tag">Encuéntranos</span>
+    <h2 class="s-title">Hablemos de tu <em>evento</em></h2>
+    <div class="ct-grid">
+      <div>
+        <div class="ct-item"><div class="ct-icon">📍</div><div class="ct-info"><p>Ciudad</p><p>Bogotá, Colombia</p></div></div>
+        <div class="ct-item"><div class="ct-icon">📱</div><div class="ct-info"><p>WhatsApp</p><p>320 477 7246 · 310 768 2656</p></div></div>
+        <div class="ct-item"><div class="ct-icon">📸</div><div class="ct-info"><p>Instagram</p><p>@rosasdelaestancia</p></div></div>
+        <div class="ct-item"><div class="ct-icon">🌸</div><div class="ct-info"><p>Flores frescas</p><p>Pedidos con mínimo 1 día de anticipación recomendado</p></div></div>
+      </div>
+      <div>
+        <p style="font-size:.9rem;color:var(--texto-suave);line-height:1.75;margin-bottom:1.5rem">La forma más rápida de contactarnos es por WhatsApp. Para eventos y matrimonios, escríbenos con anticipación — ¡nos encanta planear contigo desde el principio!</p>
+        <a href="https://wa.me/3204777246" target="_blank" class="wa-btn-big">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          Chatear por WhatsApp
+        </a>
+        <a href="https://wa.me/c/3204777246" target="_blank" class="cat-btn-big">🌹 Ver catálogo completo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="ft-logo">
+    <img src="img/logo-circle.png" alt="Logo">
+    <span class="ft-name">Rosas de La Estancia</span>
+  </div>
+  <p>Bogotá, Colombia &nbsp;·&nbsp; <a href="https://wa.me/3204777246">320 477 7246</a> &nbsp;·&nbsp; <a href="https://www.instagram.com/rosasdelaestancia">@rosasdelaestancia</a></p>
+  <p style="margin-top:.5rem;font-size:.71rem;opacity:.45">Cada arreglo es único, como el momento que celebras</p>
+</footer>
+
+<div class="toast" id="toast"></div>
+<div class="lb" id="lb" onclick="closeLB()">
+  <button class="lb-close" onclick="closeLB()">✕</button>
+  <img id="lb-img" src="" alt="">
+</div>
+
+<script>
+// ── REEMPLAZA esta URL con la tuya después de configurar Google Apps Script ──
+const SHEETS_URL = 'PEGA_AQUI_TU_URL_DE_GOOGLE_APPS_SCRIPT';
+
+document.getElementById('f-fecha').min = new Date().toISOString().split('T')[0];
+
+function selTipo(el){
+  document.querySelectorAll('.tipo-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+}
+function getTipo(){
+  const a=document.querySelector('.tipo-chip.active');
+  return a?a.dataset.val:'';
+}
+function fmtDate(s){
+  if(!s)return'';
+  const[y,m,d]=s.split('-');return d+'/'+m+'/'+y;
+}
+function toast(msg,ok){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.style.background=ok?'#3d5a3e':'#7a4e2d';
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3200);
+}
+function getF(){
+  return{
+    tipo:getTipo(),fecha:document.getElementById('f-fecha').value,
+    pedido:document.getElementById('f-pedido').value.trim(),
+    para:document.getElementById('f-para').value.trim(),
+    telr:document.getElementById('f-telr').value.trim(),
+    dir:document.getElementById('f-dir').value.trim(),
+    inmueble:document.getElementById('f-inmueble').value,
+    apto:document.getElementById('f-apto').value.trim(),
+    de:document.getElementById('f-de').value.trim(),
+    tele:document.getElementById('f-tele').value.trim(),
+    msg:document.getElementById('f-msg').value.trim(),
+    firma:document.getElementById('f-firma').value.trim(),
+  };
+}
+function validar(d){
+  if(!d.fecha){toast('Por favor ingresa la fecha de entrega',false);return false;}
+  if(!d.pedido){toast('Por favor describe tu pedido',false);return false;}
+  if(!d.para){toast('Por favor ingresa el nombre de quien recibe',false);return false;}
+  if(!d.dir){toast('Por favor ingresa la dirección de entrega',false);return false;}
+  return true;
+}
+function enviarWA(){
+  const d=getF();
+  if(!validar(d))return;
+  let m='🌹 *PEDIDO — Rosas de La Estancia*\n\n';
+  m+='*Tipo:* '+d.tipo+'\n';
+  m+='*Fecha de entrega:* '+fmtDate(d.fecha)+'\n';
+  m+='*Pedido:* '+d.pedido+'\n';
+  m+='\n📦 *ENTREGA*\n';
+  m+='*Para:* '+d.para+'\n';
+  if(d.telr)m+='*Tel. quien recibe:* '+d.telr+'\n';
+  m+='*Dirección:* '+d.dir+'\n';
+  if(d.inmueble)m+='*Tipo inmueble:* '+d.inmueble+'\n';
+  if(d.apto)m+='*Apto/Torre:* '+d.apto+'\n';
+  if(d.de||d.tele){
+    m+='\n👤 *QUIEN ENVÍA*\n';
+    if(d.de)m+='*De:* '+d.de+'\n';
+    if(d.tele)m+='*Tel.:* '+d.tele+'\n';
+  }
+  if(d.msg||d.firma){
+    m+='\n💌 *MENSAJE*\n';
+    if(d.msg)m+=d.msg+'\n';
+    if(d.firma)m+='_'+d.firma+'_\n';
+  }
+  // Guardar silenciosamente en Google Sheets
+  if(SHEETS_URL!=='PEGA_AQUI_TU_URL_DE_GOOGLE_APPS_SCRIPT'){
+    fetch(SHEETS_URL,{
+      method:'POST',mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        fecha:fmtDate(d.fecha),tipo:d.tipo,pedido:d.pedido,
+        para:d.para,telRecibe:d.telr||'',direccion:d.dir,
+        inmueble:d.inmueble||'',apto:d.apto||'',
+        de:d.de||'',telEnvia:d.tele||'',
+        mensaje:d.msg||'',firma:d.firma||'',
+        fechaRegistro:new Date().toLocaleString('es-CO')
+      })
+    }).catch(()=>{});
+  }
+  window.open('https://wa.me/3204777246?text='+encodeURIComponent(m),'_blank');
+  toast('¡Abriendo WhatsApp con tu pedido! 🌹',true);
+}
+function openLB(src){document.getElementById('lb-img').src=src;document.getElementById('lb').classList.add('open');}
+function closeLB(){document.getElementById('lb').classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLB();});
+function toggleNav(){
+  const ul=document.querySelector('.nav-links');
+  if(ul.style.display==='flex'){ul.style.display='';}
+  else{ul.style.cssText='display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:var(--crema);padding:1.5rem 2rem;gap:1.3rem;border-bottom:1px solid rgba(122,78,45,.15);z-index:199;';}
+}
+</script>
+</body>
+</html>
